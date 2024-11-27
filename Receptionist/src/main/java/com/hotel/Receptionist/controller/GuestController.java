@@ -32,8 +32,8 @@ public class GuestController
         service.addGuest(guest);
     }
 
-    @PutMapping("/guestDetails/update")
-    public void updateGuest(@RequestBody Guest guest)
+    @PutMapping("/guestDetails/update/{id}")
+    public void updateGuest(@PathVariable int id, @RequestBody Guest guest)
     {
         service.updateGuest(guest);
     }
