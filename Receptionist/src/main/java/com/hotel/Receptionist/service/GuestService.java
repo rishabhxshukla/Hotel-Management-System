@@ -36,9 +36,23 @@ public class GuestService
 	}
 	
 	//Will update guest
-	public void updateGuest(Guest guest)
+	public void updateGuest(int id, Guest requestBody)
 	{
-	   repo.save(guest);
+		Optional<Guest> existingGuest = repo.findById(id);
+		
+	    if (existingGuest.isPresent()) 
+	    {
+	        Guest guest = existingGuest.get();
+	        
+	        guest.setName(requestBody.getName());
+	        guest.setGender(requestBody.getGender());
+	        guest.setEmail(requestBody.getEmail());
+	        guest.setPhoneNo(requestBody.getPhoneNo());
+	        guest.setCompany(requestBody.getCompany());
+	        guest.setAddress(requestBody.getAddress());
+	        
+	        repo.save(guest);
+	    }
 	}
 	
 	//Will delete guest by id

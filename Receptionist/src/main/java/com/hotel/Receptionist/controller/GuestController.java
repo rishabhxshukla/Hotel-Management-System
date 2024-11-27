@@ -35,7 +35,7 @@ public class GuestController
     @PutMapping("/guestDetails/update/{id}")
     public void updateGuest(@PathVariable int id, @RequestBody Guest guest)
     {
-        service.updateGuest(guest);
+        service.updateGuest(id, guest);
     }
 
     @DeleteMapping("/guestDetails/delete/{id}")
