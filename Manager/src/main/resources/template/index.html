@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="ISO-8859-1">
+        <title>Index</title>
+        <style>
+            /* Basic reset */
+            body, html {
+                margin: 0;
+                padding: 0;
+                height: 100%;
+                font-family: Arial, sans-serif;
+            }
+
+            /* Center the content */
+            .container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 80vh; /* Full viewport height */
+                background-color: #f4f4f4;
+            }
+
+            form {
+                background-color: #fff;
+                padding: 15px;
+                border-radius: 12px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                width: 330px; /* Set the width smaller */
+                text-align: left;
+            }
+
+            h1 {
+                text-align: center;
+                color: #333;
+                font-size: 20px;
+                margin-bottom: 15px; /* Add spacing between heading and form fields */
+            }
+
+            label {
+                font-size: 12px;
+                color: #333;
+                margin-top: 0px;
+                display: block;
+            }
+
+            input[type="text"], input[type="number"], input[type="email"] {
+                width: 100%;
+                padding: 4px;
+                margin: 5px -2px;
+                border: 1px solid #ccc;
+                border-radius: 20px;
+            }
+
+            button {
+                width: 100%;
+                padding: 10px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                border-radius: 30px;
+                cursor: pointer;
+            }
+
+            button:hover {
+                background-color: #45a049;
+            }
+
+            /* Feedback messages */
+            .feedback {
+                text-align: center;
+                margin-top: 20px;
+                font-size: 16px;
+            }
+
+            .success {
+                color: green;
+            }
+
+            .error {
+                color: red;
+            }
+
+        </style>
+    </head>
+    <body>
+
+        <div class="container">
+            <form id="staffForm">
+                <h1>HTML Integration</h1>
+
+                <label for="deptId">Department ID</label>
+                <input type="text" name="deptId" id="deptId" /><br/>
+
+                <label for="name">Name</label>
+                <input type="text" name="name" id="name" /><br/>
+
+                <label for="age">Age</label>
+                <input type="text" name="age" id="age" /><br/>
+
+                <label for="salary">Salary</label>
+                <input type="number" name="salary" id="salary" /><br/>
+
+                <label for="occupation">Occupation</label>
+                <input type="text" name="occupation" id="occupation" /><br/>
+
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" /><br/>
+
+                <label for="address">Address</label>
+                <input type="text" name="address" id="address" /><br/>
+
+                <button type="button" onclick="submitForm()">Submit</button>
+            </form>
+        </div>
+
+        <div id="feedback" class="feedback"></div>
+
+        <script>
+            function submitForm() {
+                // Collect form data into an object
+                const staffData = {
+                    deptId: document.getElementById("deptId").value,
+                    name: document.getElementById("name").value,
+                    age: document.getElementById("age").value,
+                    salary: document.getElementById("salary").value,
+                    occupation: document.getElementById("occupation").value,
+                    email: document.getElementById("email").value,
+                    address: document.getElementById("address").value
+                };
+
+                // Show loading message
+                document.getElementById("feedback").innerHTML = "Submitting...";
+
+                // Send data as JSON using Fetch API
+                fetch('/manager/staffDetails/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json' // Sending data as JSON
+                    },
+                    body: JSON.stringify(staffData) // Convert the data object to a JSON string
+                })
+                .then(response => response.text()) // Use response.text() if the server sends plain text
+                .then(data => {
+                    // Display the response from the server (success message)
+                    document.getElementById("feedback").innerHTML = data;
+                    document.getElementById("feedback").className = "feedback success"; // Success message class
+                })
+                .catch(error => {
+                    // Handle network errors
+                    document.getElementById("feedback").innerHTML = "Error: " + error.message;
+                    document.getElementById("feedback").className = "feedback error"; // Error message class
+                });
+            }
+        </script>
+
+    </body>
+</html>
